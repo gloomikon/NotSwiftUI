@@ -11,7 +11,6 @@
 		771BA9FD2BF563C800EF705B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771BA9FC2BF563C800EF705B /* ContentView.swift */; };
 		771BA9FF2BF563C900EF705B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 771BA9FE2BF563C900EF705B /* Assets.xcassets */; };
 		771BAA022BF563C900EF705B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 771BAA012BF563C900EF705B /* Preview Assets.xcassets */; };
-		771BAA0C2BF564BF00EF705B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 771BAA0B2BF564BF00EF705B /* Info.plist */; };
 		771BAA0E2BF5652B00EF705B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 771BAA0D2BF5652B00EF705B /* Main.storyboard */; };
 		77E8C2792BF56BE90046B5C7 /* NotSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 77E8C2782BF56BE90046B5C7 /* NotSwiftUI */; };
 /* End PBXBuildFile section */
@@ -143,7 +142,6 @@
 			files = (
 				771BAA022BF563C900EF705B /* Preview Assets.xcassets in Resources */,
 				771BA9FF2BF563C900EF705B /* Assets.xcassets in Resources */,
-				771BAA0C2BF564BF00EF705B /* Info.plist in Resources */,
 				771BAA0E2BF5652B00EF705B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

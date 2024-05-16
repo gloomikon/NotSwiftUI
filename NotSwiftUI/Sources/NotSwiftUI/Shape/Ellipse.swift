@@ -1,8 +1,13 @@
 import CoreGraphics
+import SwiftUI
 
-struct Ellipse: Shape {
-    func path(in rect: CGRect) -> CGPath {
+public struct Ellipse: Shape {
+
+    public init() { }
+    
+    public func path(in rect: CGRect) -> CGPath {
         CGPath(ellipseIn: rect, transform: nil)
     }
+    
 }
 

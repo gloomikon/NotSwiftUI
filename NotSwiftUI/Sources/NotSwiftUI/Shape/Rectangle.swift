@@ -1,7 +1,9 @@
 import CoreGraphics
 
-struct Rectangle: Shape {
-    func path(in rect: CGRect) -> CGPath {
+public struct Rectangle: Shape {
+    public func path(in rect: CGRect) -> CGPath {
         CGPath(rect: rect, transform: nil)
     }
+    
+    public init() { }
 }
