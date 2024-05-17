@@ -41,7 +41,11 @@ struct FixedFrame<Content: View>: BuiltinView, View {
 }
 
 public extension View {
-    func frame(width: CGFloat? = nil, height: CGFloat? = nil, alignment: Alignment = .center) -> some View {
+    func frame(
+        width: CGFloat? = nil,
+        height: CGFloat? = nil,
+        alignment: Alignment = .center
+    ) -> some View {
         FixedFrame(width: width, height: height, alignment: alignment, content: self)
     }
 }
