@@ -1,14 +1,6 @@
 import CoreGraphics
 import SwiftUI
 
-extension Alignment {
-    func point(for size: CGSize) -> CGPoint {
-        let x = horizontal.id.defaultValue(in: size)
-        let y = vertical.id.defaultValue(in: size)
-        return CGPoint(x: x, y: y)
-    }
-}
-
 struct FixedFrame<Content: View>: BuiltinView, View {
 
     let width: CGFloat?
@@ -16,18 +8,10 @@ struct FixedFrame<Content: View>: BuiltinView, View {
     let alignment: Alignment
     let content: Content
     
-    func render(context: RenderingContext, size: ProposedSize) { 
+    func render(context: RenderingContext, size: ProposedSize) {
         context.saveGState()
         let childSize = content._size(proposed: size)
-
-        let selfPoint = alignment.point(for: size)
-        let childPoint = alignment.point(for: childSize)
-
-        context.translateBy(
-            x: selfPoint.x - childPoint.x,
-            y: selfPoint.y - childPoint.y
-        )
-
+        context.align(childSize, in: size, alignment: alignment)
         content._render(context: context, size: childSize)
         context.restoreGState()
     }

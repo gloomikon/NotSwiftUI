@@ -8,6 +8,5 @@ public struct Ellipse: Shape {
     public func path(in rect: CGRect) -> CGPath {
         CGPath(ellipseIn: rect, transform: nil)
     }
-    
 }
 

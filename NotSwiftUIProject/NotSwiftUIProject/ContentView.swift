@@ -1,20 +1,25 @@
 import NotSwiftUI
 import SwiftUI
 
-var sample: some NotSwiftUI.View {
-    NotSwiftUI.Ellipse()
-        .frame(width: 200, height: 100)
-        .border(.yellow, width: 2)
-        .frame(width: 300, height: 300, alignment: .topLeading)
-        .border(.blue, width: 2)
-}
-
 struct ContentView: SwiftUI.View {
-    
+
     private let size = CGSize(width: 600, height: 400)
-    
+
     @State private var opacity: Double = 0.5
-    
+    @State private var width: CGFloat = 300
+
+    private var sample: some NotSwiftUI.View {
+        NotSwiftUI.Ellipse()
+            .overlay(
+                NotSwiftUI.GeometryReader { size in
+                    NotSwiftUI.Text("\(size.width) \(size.height)")
+                }
+                    .border(.white, width: 1)
+            )
+            .frame(width: width, height: 300, alignment: .topLeading)
+    }
+
+
     var body: some SwiftUI.View {
         VStack {
 
@@ -30,7 +35,12 @@ struct ContentView: SwiftUI.View {
                     .opacity(opacity)
             }
             
-            Slider(value: $opacity, in: 0...1)
+            Slider(value: $opacity, in: 0...1) {
+                Text("Opacity \(opacity)")
+            }
+            Slider(value: $width, in: 0...600) {
+                Text("Width \(width)")
+            }
         }
     }
 }

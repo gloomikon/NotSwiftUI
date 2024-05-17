@@ -27,3 +27,11 @@ public struct Alignment {
     public static let bottom: Alignment = Alignment(horizontal: .center, vertical: .bottom)
     public static let bottomTrailing: Alignment = Alignment(horizontal: .trailing, vertical: .bottom)
 }
+
+extension Alignment {
+    func point(for size: CGSize) -> CGPoint {
+        let x = horizontal.id.defaultValue(in: size)
+        let y = vertical.id.defaultValue(in: size)
+        return CGPoint(x: x, y: y)
+    }
+}
