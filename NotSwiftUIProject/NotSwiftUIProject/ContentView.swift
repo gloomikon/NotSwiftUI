@@ -4,6 +4,9 @@ import SwiftUI
 var sample: some NotSwiftUI.View {
     NotSwiftUI.Ellipse()
         .frame(width: 200, height: 100)
+        .border(.yellow, width: 2)
+        .frame(width: 300, height: 50)
+        .border(.blue, width: 2)
 }
 
 struct ContentView: SwiftUI.View {
