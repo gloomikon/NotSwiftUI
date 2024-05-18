@@ -14,19 +14,20 @@ struct ContentView: SwiftUI.View {
     @State private var maxHeight: (height: CGFloat, enabled: Bool) = (500, false)
 
     private var sample: some NotSwiftUI.View {
-        NotSwiftUI.Text("Hello World")
-            .border(.red, width: 2)
-            .fixedSize()
-            .foregroundColor(.blue)
-//            .frame(width: 150)
-//            .frame(
-//                minWidth: minWidth.enabled ? minWidth.width : nil,
-//                maxWidth: maxWidth.enabled ? maxWidth.width : nil,
-//                minHeight: minHeight.enabled ? minHeight.height : nil,
-//                maxHeight: maxHeight.enabled ? maxHeight.height : nil
-//            )
+        NotSwiftUI.HStack(children: [
+            NotSwiftUI.AnyView(
+                NotSwiftUI.Rectangle()
+                    .frame(width: 100, height: 100)
+                    .foregroundColor(.red)
+            ),
+            NotSwiftUI.AnyView(
+                NotSwiftUI.Rectangle()
+                    .frame(width: 500, height: 200)
+                    .foregroundColor(.blue)
+            )
+        ])
             .frame(width: width, height: height)
-            .border(.yellow, width: 2)
+
     }
 
 
