@@ -22,18 +22,41 @@ struct ContentView: SwiftUI.View {
     @State private var maxHeight: (height: CGFloat, enabled: Bool) = (500, false)
 
     private var sample: some NotSwiftUI.View {
-        NotSwiftUI.HStack(alignment: .top, children: [
+        NotSwiftUI.VStack(alignment: .leading, children: [
             NotSwiftUI.AnyView(
-                NotSwiftUI.Rectangle()
-                    .frame(minWidth: 150)
-                    .foregroundColor(.blue)
-                    .measured
+                NotSwiftUI.HStack(alignment: .top, children: [
+                    NotSwiftUI.AnyView(
+                        NotSwiftUI.Rectangle()
+                            .frame(minWidth: 150)
+                            .foregroundColor(.blue)
+                            .measured
+                    ),
+                    NotSwiftUI.AnyView(
+                        NotSwiftUI.Rectangle()
+                            .frame(maxWidth: 100)
+                            .foregroundColor(.red)
+                            .measured
+                    )
+                ])
+                .frame(maxWidth: 400)
+                .border(.brown, width: 2)
             ),
+
             NotSwiftUI.AnyView(
-                NotSwiftUI.Rectangle()
-                    .frame(maxWidth: 100)
-                    .foregroundColor(.red)
-                    .measured
+                NotSwiftUI.HStack(alignment: .top, children: [
+                    NotSwiftUI.AnyView(
+                        NotSwiftUI.Rectangle()
+                            .frame(maxWidth: 100)
+                            .foregroundColor(.red)
+                            .measured
+                    ),
+                    NotSwiftUI.AnyView(
+                        NotSwiftUI.Rectangle()
+                            .frame(minWidth: 150)
+                            .foregroundColor(.blue)
+                            .measured
+                    )
+                ]).border(.cyan, width: 2)
             )
         ])
         .frame(width: width, height: height)
