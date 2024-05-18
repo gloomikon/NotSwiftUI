@@ -18,8 +18,8 @@ extension Never: View {
     public var swiftUI: Never { fatalError("This should never be called.") }
 }
 
-public extension View {
-    func _render(context: RenderingContext, size: ProposedSize) {
+extension View {
+    func _render(context: RenderingContext, size: CGSize) {
         if let builtin = self as? BuiltinView {
             builtin.render(context: context, size: size)
         } else {

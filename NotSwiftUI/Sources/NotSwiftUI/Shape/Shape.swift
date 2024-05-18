@@ -33,7 +33,7 @@ public struct ShapeView<S: Shape>: BuiltinView, View {
     let shape: S
 
     
-    public func render(context: RenderingContext, size: ProposedSize) {
+    public func render(context: RenderingContext, size: CGSize) {
         context.saveGState()
         context.addPath(shape.path(in: CGRect(origin: .zero, size: size)))
         context.fillPath()
@@ -41,7 +41,7 @@ public struct ShapeView<S: Shape>: BuiltinView, View {
     }
     
     public func size(proposed: ProposedSize) -> CGSize {
-        proposed
+        proposed.orDefault
     }
     
     public var swiftUI: some SwiftUI.View {

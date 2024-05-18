@@ -26,7 +26,7 @@ public struct GeometryReader<Content: View>: View, BuiltinView {
     }
 
     public func size(proposed: ProposedSize) -> CGSize {
-        proposed
+        proposed.orDefault
     }
 
     public var swiftUI: some SwiftUI.View {

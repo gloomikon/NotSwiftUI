@@ -41,7 +41,7 @@ public struct Text: View, BuiltinView {
             framesetter,
             CFRange(),
             nil,
-            proposed,
+            proposed.orMax,
             nil
         )
     }

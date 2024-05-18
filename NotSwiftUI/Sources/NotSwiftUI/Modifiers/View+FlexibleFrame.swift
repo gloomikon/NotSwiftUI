@@ -12,17 +12,20 @@ struct FlexibleFrame<Content: View>: BuiltinView, View {
     let alignment: Alignment
     let content: Content
 
-    func render(context: RenderingContext, size: ProposedSize) {
+    func render(context: RenderingContext, size: CGSize) {
         context.saveGState()
-        let childSize = content._size(proposed: size)
+        let childSize = content._size(proposed: ProposedSize(size))
         context.align(childSize, in: size, alignment: alignment)
         content._render(context: context, size: childSize)
         context.restoreGState()
     }
 
     func size(proposed: ProposedSize) -> CGSize {
-        var proposed = proposed
-        
+        var proposed = ProposedSize(
+            width: proposed.width ?? idealWidth,
+            height: proposed.height ?? idealHeight
+        ).orDefault
+
         if let maxWidth, maxWidth < proposed.width {
             proposed.width = maxWidth
         }
@@ -39,7 +42,7 @@ struct FlexibleFrame<Content: View>: BuiltinView, View {
             proposed.height = minHeight
         }
 
-        var result = content._size(proposed: proposed)
+        var result = content._size(proposed: ProposedSize(proposed))
 
         if let maxWidth {
             result.width = min(maxWidth, max(result.width, proposed.width))

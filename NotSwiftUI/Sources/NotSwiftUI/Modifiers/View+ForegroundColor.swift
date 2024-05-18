@@ -23,7 +23,7 @@ struct ForegroundColor<Content: View>: View, BuiltinView {
 }
 
 public extension View {
-    func foregroundColor(_ color: NSColor) -> some View {
+    func `foregroundColor`(_ color: NSColor) -> some View {
         ForegroundColor(content: self, color: color)
     }
 }

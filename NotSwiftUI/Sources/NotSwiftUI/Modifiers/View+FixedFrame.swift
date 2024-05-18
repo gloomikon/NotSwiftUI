@@ -8,9 +8,9 @@ struct FixedFrame<Content: View>: BuiltinView, View {
     let alignment: Alignment
     let content: Content
     
-    func render(context: RenderingContext, size: ProposedSize) {
+    func render(context: RenderingContext, size: CGSize) {
         context.saveGState()
-        let childSize = content._size(proposed: size)
+        let childSize = content._size(proposed: ProposedSize(size))
         context.align(childSize, in: size, alignment: alignment)
         content._render(context: context, size: childSize)
         context.restoreGState()
@@ -22,7 +22,7 @@ struct FixedFrame<Content: View>: BuiltinView, View {
         }
         
         let childSize = content._size(
-            proposed: CGSize(
+            proposed: ProposedSize(
                 width: width ?? proposed.width,
                 height: height ?? proposed.height
             )

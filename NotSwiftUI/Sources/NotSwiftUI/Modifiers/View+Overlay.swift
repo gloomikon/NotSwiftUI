@@ -8,8 +8,8 @@ struct Overlay<Content: View, Overlay: View>: View, BuiltinView {
 
     func render(context: RenderingContext, size: CGSize) {
         content._render(context: context, size: size)
-        let contentSize = content._size(proposed: size)
-        let childSize = overlay._size(proposed: contentSize)
+        let contentSize = content._size(proposed: ProposedSize(size))
+        let childSize = overlay._size(proposed: ProposedSize(contentSize))
         context.saveGState()
         overlay._render(context: context, size: childSize)
         context.restoreGState()
