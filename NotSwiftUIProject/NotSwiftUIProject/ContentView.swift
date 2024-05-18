@@ -1,6 +1,14 @@
 import NotSwiftUI
 import SwiftUI
 
+private extension NotSwiftUI.View {
+    var measured: some NotSwiftUI.View {
+        overlay(NotSwiftUI.GeometryReader { size in
+            NotSwiftUI.Text("\(size.width) \(size.height)")
+        })
+    }
+}
+
 struct ContentView: SwiftUI.View {
 
     private let size = CGSize(width: 600, height: 400)
@@ -14,20 +22,22 @@ struct ContentView: SwiftUI.View {
     @State private var maxHeight: (height: CGFloat, enabled: Bool) = (500, false)
 
     private var sample: some NotSwiftUI.View {
-        NotSwiftUI.HStack(children: [
+        NotSwiftUI.HStack(alignment: .top, children: [
             NotSwiftUI.AnyView(
                 NotSwiftUI.Rectangle()
-                    .frame(width: 100, height: 100)
-                    .foregroundColor(.red)
+                    .frame(minWidth: 150)
+                    .foregroundColor(.blue)
+                    .measured
             ),
             NotSwiftUI.AnyView(
                 NotSwiftUI.Rectangle()
-                    .frame(width: 500, height: 200)
-                    .foregroundColor(.blue)
+                    .frame(maxWidth: 100)
+                    .foregroundColor(.red)
+                    .measured
             )
         ])
-            .frame(width: width, height: height)
-
+        .frame(width: width, height: height)
+        .border(.yellow, width: 2)
     }
 
 
