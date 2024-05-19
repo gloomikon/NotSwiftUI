@@ -70,6 +70,10 @@ public struct HStack: View, BuiltinView {
         self.sizes = sizes
     }
 
+    public func customAlignment(for alignment: HorizontalAlignment, in size: CGSize) -> CGFloat? {
+        fatalError()
+    }
+
     public var swiftUI: some SwiftUI.View {
         SwiftUI.HStack(alignment: alignment.swiftUI, spacing: spacing) {
             ForEach(children.indices, id: \.self) { idx in

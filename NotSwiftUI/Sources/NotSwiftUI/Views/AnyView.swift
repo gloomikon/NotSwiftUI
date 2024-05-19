@@ -8,6 +8,10 @@ class AnyViewBase: BuiltinView {
     func size(proposed: ProposedSize) -> CGSize {
         fatalError()
     }
+
+    func customAlignment(for alignment: HorizontalAlignment, in size: CGSize) -> CGFloat? {
+        fatalError()
+    }
 }
 
 class AnyViewImpl<V: View>: AnyViewBase {
@@ -24,6 +28,10 @@ class AnyViewImpl<V: View>: AnyViewBase {
 
     override func size(proposed: ProposedSize) -> CGSize {
         view._size(proposed: proposed)
+    }
+
+    override func customAlignment(for alignment: HorizontalAlignment, in size: CGSize) -> CGFloat? {
+        view._customAlignment(for: alignment, in: size)
     }
 }
 
@@ -43,5 +51,9 @@ public struct AnyView: View, BuiltinView {
 
     public func size(proposed: ProposedSize) -> CGSize {
         impl.size(proposed: proposed)
+    }
+
+    public func customAlignment(for alignment: HorizontalAlignment, in size: CGSize) -> CGFloat? {
+        impl.customAlignment(for: alignment, in: size)
     }
 }
