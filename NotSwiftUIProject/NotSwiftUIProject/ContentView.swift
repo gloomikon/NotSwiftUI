@@ -1,6 +1,24 @@
 import NotSwiftUI
 import SwiftUI
 
+private enum MyLeadingAlignment: NotSwiftUI.AlignmentID, SwiftUI.AlignmentID {
+
+    static func defaultValue(in context: ViewDimensions) -> CGFloat {
+        .zero
+    }
+
+    static func defaultValue(in context: CGSize) -> CGFloat {
+        .zero
+    }
+}
+
+private extension NotSwiftUI.HorizontalAlignment {
+    static let myLeading = Self(
+        MyLeadingAlignment.self,
+        swiftUI: HorizontalAlignment(MyLeadingAlignment.self)
+    )
+}
+
 private extension NotSwiftUI.View {
     var measured: some NotSwiftUI.View {
         overlay(NotSwiftUI.GeometryReader { size in
@@ -22,47 +40,28 @@ struct ContentView: SwiftUI.View {
     @State private var maxHeight: (height: CGFloat, enabled: Bool) = (500, false)
 
     private var sample: some NotSwiftUI.View {
-        NotSwiftUI.VStack(alignment: .leading, children: [
+        NotSwiftUI.HStack(children: [
             NotSwiftUI.AnyView(
-                NotSwiftUI.HStack(alignment: .top, children: [
-                    NotSwiftUI.AnyView(
-                        NotSwiftUI.Rectangle()
-                            .frame(minWidth: 150)
-                            .foregroundColor(.blue)
-                            .measured
-                    ),
-                    NotSwiftUI.AnyView(
-                        NotSwiftUI.Rectangle()
-                            .frame(maxWidth: 100)
-                            .foregroundColor(.red)
-                            .measured
-                    )
-                ])
-                .frame(maxWidth: 400)
-                .border(.brown, width: 2)
+                NotSwiftUI.Rectangle().foregroundColor(.red)
+                    .frame(width: 150, height: 50)
+                    .alignmentGuide(.myLeading) { size in size.width / 2 }
             ),
-
             NotSwiftUI.AnyView(
-                NotSwiftUI.HStack(alignment: .top, children: [
-                    NotSwiftUI.AnyView(
-                        NotSwiftUI.Rectangle()
-                            .frame(maxWidth: 100)
-                            .foregroundColor(.red)
-                            .measured
-                    ),
-                    NotSwiftUI.AnyView(
-                        NotSwiftUI.Rectangle()
-                            .frame(minWidth: 150)
-                            .foregroundColor(.blue)
-                            .measured
-                    )
-                ]).border(.cyan, width: 2)
-            )
+                NotSwiftUI.Rectangle().foregroundColor(.green)
+                    .frame(width: 100, height: 50)
+                    .alignmentGuide(.myLeading) { size in size.width / 2 }
+            ),
         ])
-        .frame(width: width, height: height)
-        .border(.yellow, width: 2)
+        .frame(
+            width: 400,
+            height: 200,
+            alignment: NotSwiftUI.Alignment(
+                horizontal: .myLeading,
+                vertical: .center
+            )
+        )
+        .border(.white, width: 2)
     }
-
 
     var body: some SwiftUI.View {
         VStack {

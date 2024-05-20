@@ -11,7 +11,13 @@ struct FixedFrame<Content: View>: BuiltinView, View {
     func render(context: RenderingContext, size: CGSize) {
         context.saveGState()
         let childSize = content._size(proposed: ProposedSize(size))
-        context.align(childSize, in: size, alignment: alignment)
+        let translation = translation(
+            for: content,
+            in: size,
+            childSize: childSize,
+            alignment: alignment
+        )
+        context.translateBy(x: translation.x, y: translation.y)
         content._render(context: context, size: childSize)
         context.restoreGState()
     }
@@ -30,7 +36,24 @@ struct FixedFrame<Content: View>: BuiltinView, View {
         
         return CGSize(width: width ?? childSize.width, height: height ?? childSize.height)
     }
-    
+
+    func customAlignment(for alignment: HorizontalAlignment, in size: CGSize) -> CGFloat? {
+        let childSize = content._size(proposed: ProposedSize(size))
+
+        if let customX = content._customAlignment(for: alignment, in: childSize) {
+            let translation = translation(
+                for: content,
+                in: size,
+                childSize: childSize,
+                alignment: self.alignment
+            )
+
+            return translation.x + customX
+        }
+
+        return nil
+    }
+
     var swiftUI: some SwiftUI.View {
         content.swiftUI.frame(
             width: width,

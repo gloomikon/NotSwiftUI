@@ -24,6 +24,10 @@ struct FixedSize<Content: View>: View, BuiltinView {
         return content._size(proposed: proposed)
     }
 
+    func customAlignment(for alignment: HorizontalAlignment, in size: CGSize) -> CGFloat? {
+        content._customAlignment(for: alignment, in: size)
+    }
+
     var swiftUI: some SwiftUI.View {
         content.swiftUI.fixedSize(horizontal: horizontal, vertical: vertical)
     }

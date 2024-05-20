@@ -32,7 +32,6 @@ public struct ShapeView<S: Shape>: BuiltinView, View {
 
     let shape: S
 
-    
     public func render(context: RenderingContext, size: CGSize) {
         context.saveGState()
         context.addPath(shape.path(in: CGRect(origin: .zero, size: size)))
@@ -43,7 +42,14 @@ public struct ShapeView<S: Shape>: BuiltinView, View {
     public func size(proposed: ProposedSize) -> CGSize {
         proposed.orDefault
     }
-    
+
+    public func customAlignment(
+        for alignment: HorizontalAlignment,
+        in size: CGSize
+    ) -> CGFloat? {
+        nil
+    }
+
     public var swiftUI: some SwiftUI.View {
         AnyShape(shape)
     }

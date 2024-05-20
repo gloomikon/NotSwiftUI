@@ -5,6 +5,7 @@ public struct HorizontalAlignment {
 
     public let id: AlignmentID.Type
     let swiftUI: SwiftUI.HorizontalAlignment
+    let builtin: Bool
 
     public init(
         _ id: AlignmentID.Type,
@@ -12,21 +13,35 @@ public struct HorizontalAlignment {
     ) {
         self.id = id
         self.swiftUI = swiftUI
+        self.builtin = false
+    }
+
+    init(
+        _ id: AlignmentID.Type,
+        swiftUI: SwiftUI.HorizontalAlignment,
+        builtin: Bool
+    ) {
+        self.id = id
+        self.swiftUI = swiftUI
+        self.builtin = builtin
     }
 
     public static let leading: HorizontalAlignment = HorizontalAlignment(
-        HorizontalLeadingAlignment.self, 
-        swiftUI: .leading
+        HorizontalLeadingAlignment.self,
+        swiftUI: .leading,
+        builtin: true
     )
 
     public static let center: HorizontalAlignment = HorizontalAlignment(
         HorizontalCenterAlignment.self,
-        swiftUI: .center
+        swiftUI: .center,
+        builtin: true
     )
 
     public static let trailing: HorizontalAlignment = HorizontalAlignment(
         HorizontalTrailingAlignment.self,
-        swiftUI: .trailing
+        swiftUI: .trailing,
+        builtin: true
     )
 }
 
