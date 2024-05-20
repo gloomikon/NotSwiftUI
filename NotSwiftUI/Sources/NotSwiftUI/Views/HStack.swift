@@ -70,8 +70,24 @@ public struct HStack: View, BuiltinView {
         self.sizes = sizes
     }
 
-    public func customAlignment(for alignment: HorizontalAlignment, in size: CGSize) -> CGFloat? {
-        fatalError()
+    public func customAlignment(
+        for alignment: HorizontalAlignment,
+        in size: CGSize
+    ) -> CGFloat? {
+        if alignment.builtin { return nil }
+
+        var currentX: CGFloat = .zero
+        var values: [CGFloat] = []
+
+        for (childSize, child) in zip(sizes, children) {
+            defer { currentX += childSize.width }
+
+            if let value = child.customAlignment(for: alignment, in: childSize) {
+                values.append(value + currentX)
+            }
+        }
+
+        return values.average
     }
 
     public var swiftUI: some SwiftUI.View {
@@ -80,5 +96,13 @@ public struct HStack: View, BuiltinView {
                 children[idx].swiftUI
             }
         }
+    }
+}
+
+private extension Array where Element: FloatingPoint {
+    var average: Element? {
+        if isEmpty { return nil }
+        let factor = 1 / Element(count)
+        return map { $0 * factor }.reduce(0, +)
     }
 }

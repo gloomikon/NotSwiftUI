@@ -5,6 +5,7 @@ public struct VerticalAlignment {
 
     public let id: AlignmentID.Type
     let swiftUI: SwiftUI.VerticalAlignment
+    let builtin: Bool
 
     public init(
         _ id: AlignmentID.Type,
@@ -12,21 +13,35 @@ public struct VerticalAlignment {
     ) {
         self.id = id
         self.swiftUI = swiftUI
+        self.builtin = false
+    }
+
+    public init(
+        _ id: AlignmentID.Type,
+        swiftUI: SwiftUI.VerticalAlignment,
+        builtin: Bool
+    ) {
+        self.id = id
+        self.swiftUI = swiftUI
+        self.builtin = builtin
     }
 
     public static let top: VerticalAlignment = VerticalAlignment(
         VerticalTopAlignment.self,
-        swiftUI: .top
+        swiftUI: .top,
+        builtin: true
     )
 
     public static let center: VerticalAlignment = VerticalAlignment(
         VerticalCenterAlignment.self,
-        swiftUI: .center
+        swiftUI: .center,
+        builtin: true
     )
 
     public static let bottom: VerticalAlignment = VerticalAlignment(
         VerticalBottomAlignment.self,
-        swiftUI: .bottom
+        swiftUI: .bottom,
+        builtin: true
     )
 }
 

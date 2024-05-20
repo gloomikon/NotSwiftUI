@@ -9,7 +9,6 @@ public struct GeometryReader<Content: View>: View, BuiltinView {
     }
 
     public func render(context: RenderingContext, size: CGSize) {
-        fatalError()
          content(size)._render(context: context, size: size)
     }
 

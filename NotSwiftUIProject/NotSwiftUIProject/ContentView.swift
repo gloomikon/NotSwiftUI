@@ -1,6 +1,24 @@
 import NotSwiftUI
 import SwiftUI
 
+private enum MyLeadingAlignment: NotSwiftUI.AlignmentID, SwiftUI.AlignmentID {
+
+    static func defaultValue(in context: ViewDimensions) -> CGFloat {
+        .zero
+    }
+
+    static func defaultValue(in context: CGSize) -> CGFloat {
+        .zero
+    }
+}
+
+private extension NotSwiftUI.HorizontalAlignment {
+    static let myLeading = Self(
+        MyLeadingAlignment.self,
+        swiftUI: HorizontalAlignment(MyLeadingAlignment.self)
+    )
+}
+
 private extension NotSwiftUI.View {
     var measured: some NotSwiftUI.View {
         overlay(NotSwiftUI.GeometryReader { size in
@@ -22,13 +40,27 @@ struct ContentView: SwiftUI.View {
     @State private var maxHeight: (height: CGFloat, enabled: Bool) = (500, false)
 
     private var sample: some NotSwiftUI.View {
-        NotSwiftUI.Rectangle()
-            .foregroundColor(.blue)
-            .frame(width: 200, height: 200)
-            .alignmentGuide(.center) { size in size.width }
-            .border(.yellow, width: 2)
-            .frame(width: width, height: height)
-//            .border(.green, width: 2)
+        NotSwiftUI.HStack(children: [
+            NotSwiftUI.AnyView(
+                NotSwiftUI.Rectangle().foregroundColor(.red)
+                    .frame(width: 150, height: 50)
+                    .alignmentGuide(.myLeading) { size in size.width / 2 }
+            ),
+            NotSwiftUI.AnyView(
+                NotSwiftUI.Rectangle().foregroundColor(.green)
+                    .frame(width: 100, height: 50)
+                    .alignmentGuide(.myLeading) { size in size.width / 2 }
+            ),
+        ])
+        .frame(
+            width: 400,
+            height: 200,
+            alignment: NotSwiftUI.Alignment(
+                horizontal: .myLeading,
+                vertical: .center
+            )
+        )
+        .border(.white, width: 2)
     }
 
     var body: some SwiftUI.View {
