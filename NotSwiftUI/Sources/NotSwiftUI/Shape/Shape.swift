@@ -1,4 +1,4 @@
-import AppKit
+import CoreGraphics
 import SwiftUI
 
 public protocol Shape: View {

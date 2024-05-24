@@ -5,7 +5,10 @@ import PackageDescription
 
 let package = Package(
     name: "NotSwiftUI",
-    platforms: [.macOS(.v10_15)],
+    platforms: [
+        .macOS(.v10_13),
+        .iOS(.v12)
+    ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(

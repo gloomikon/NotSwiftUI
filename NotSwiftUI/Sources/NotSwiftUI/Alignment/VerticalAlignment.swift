@@ -47,7 +47,11 @@ public struct VerticalAlignment {
 
 enum VerticalTopAlignment: AlignmentID {
     static func defaultValue(in context: CGSize) -> CGFloat {
+        #if os(iOS)
+        .zero
+        #else
         context.height
+        #endif
     }
 }
 
@@ -59,6 +63,10 @@ enum VerticalCenterAlignment: AlignmentID {
 
 enum VerticalBottomAlignment: AlignmentID {
     static func defaultValue(in context: CGSize) -> CGFloat {
+        #if os(iOS)
+        context.height
+        #else
         .zero
+        #endif
     }
 }

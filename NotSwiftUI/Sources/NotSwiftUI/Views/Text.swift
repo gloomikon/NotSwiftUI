@@ -8,12 +8,12 @@ public struct Text: View, BuiltinView {
         self.text = text
     }
 
-    private let font = NSFont.systemFont(ofSize: 16)
+    private let font = Font.systemFont(ofSize: 16)
 
     private var attributes: [NSAttributedString.Key: Any] {
         [
             .font: font,
-            .foregroundColor: NSColor.white
+            .foregroundColor: Color.white
         ]
     }
 
@@ -36,6 +36,10 @@ public struct Text: View, BuiltinView {
         )
 
         context.saveGState()
+        #if os(iOS)
+        context.translateBy(x: 0, y: size.height)
+        context.scaleBy(x: 1, y: -1)
+        #endif
         CTFrameDraw(frame, context)
         context.restoreGState()
     }
@@ -55,6 +59,6 @@ public struct Text: View, BuiltinView {
     }
 
     public var swiftUI: some SwiftUI.View {
-        SwiftUI.Text(text).font(Font(font))
+        SwiftUI.Text(text).font(SwiftUI.Font(font))
     }
 }

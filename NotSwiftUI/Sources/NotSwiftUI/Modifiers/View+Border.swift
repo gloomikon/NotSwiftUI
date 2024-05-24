@@ -1,4 +1,4 @@
-import AppKit
+import CoreGraphics
 import SwiftUI
 
 struct BorderShape: Shape {
@@ -17,7 +17,7 @@ struct BorderShape: Shape {
 }
 
 public extension View {
-    func border(_ color: NSColor, width: CGFloat = 1) -> some View {
+    func border(_ color: Color, width: CGFloat = 1) -> some View {
         overlay(BorderShape(width: width).foregroundColor(color))
     }
 }

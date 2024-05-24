@@ -4,7 +4,7 @@ import SwiftUI
 struct ForegroundColor<Content: View>: View, BuiltinView {
 
     let content: Content
-    let color: NSColor
+    let color: Color
 
     var layoutPriority: Double {
         content._layoutPriority
@@ -26,12 +26,12 @@ struct ForegroundColor<Content: View>: View, BuiltinView {
     }
 
     var swiftUI: some SwiftUI.View {
-        content.swiftUI.foregroundColor(Color(color))
+        content.swiftUI.foregroundColor(SwiftUI.Color(color))
     }
 }
 
 public extension View {
-    func foregroundColor(_ color: NSColor) -> some View {
+    func foregroundColor(_ color: Color) -> some View {
         ForegroundColor(content: self, color: color)
     }
 }
