@@ -17,6 +17,9 @@ public struct HStack: View, BuiltinView {
         self.children = children
     }
 
+    public var layoutPriority: Double {
+        .zero
+    }
 
     public func render(context: RenderingContext, size: CGSize) {
         let stackY = alignment.id.defaultValue(in: size)
@@ -41,30 +44,39 @@ public struct HStack: View, BuiltinView {
     }
 
     private func layout(proposed: ProposedSize) {
-        let flexibility = children.map { child in
+        let flexibility: [LayoutInfo] = children.enumerated().map { idx, child in
             let lower = child.size(proposed: ProposedSize(width: .zero, height: proposed.height)).width
             let upper = child.size(proposed: ProposedSize(width: .greatestFiniteMagnitude, height: proposed.height)).width
-            return upper - lower
-        }
+            return LayoutInfo(
+                minWidth: lower,
+                maxWidth: upper,
+                idx: idx,
+                priority: child.layoutPriority
+            )
+        }.sorted()
 
-        var remainingIndices = children.indices.sorted { lhs, rhs in
-            flexibility[lhs] < flexibility[rhs]
-        }
-
-        var remainingWidth = proposed.width! // TODO
+        var groups = flexibility.group(by: \.priority)
         var sizes: [CGSize] = Array(repeating: .zero, count: children.count)
+        let allMinWidth = flexibility.map(\.minWidth).reduce(0, +)
+        var remainingWidth = proposed.width! - allMinWidth // TODO: - Force unwrap
 
-        while !remainingIndices.isEmpty {
-            let width = remainingWidth / CGFloat(remainingIndices.count)
-            let idx = remainingIndices.removeFirst()
-            let child = children[idx]
-            let size = child.size(proposed: ProposedSize(
-                width: width,
-                height: proposed.height
-            ))
-            sizes[idx] = size
-            remainingWidth -= size.width
-            if remainingWidth < .zero { remainingWidth = .zero }
+        while !groups.isEmpty {
+            let group = groups.removeFirst()
+            remainingWidth += group.map(\.minWidth).reduce(0, +)
+            var remainingIndices = group.map(\.idx)
+
+            while !remainingIndices.isEmpty {
+                let width = remainingWidth / CGFloat(remainingIndices.count)
+                let idx = remainingIndices.removeFirst()
+                let child = children[idx]
+                let size = child.size(proposed: ProposedSize(
+                    width: width,
+                    height: proposed.height
+                ))
+                sizes[idx] = size
+                remainingWidth -= size.width
+                if remainingWidth < .zero { remainingWidth = .zero }
+            }
         }
 
         self.sizes = sizes

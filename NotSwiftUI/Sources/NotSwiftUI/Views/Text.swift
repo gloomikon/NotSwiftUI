@@ -23,6 +23,10 @@ public struct Text: View, BuiltinView {
         return frameSetter
     }
 
+    public var layoutPriority: Double {
+        .zero
+    }
+
     public func render(context: RenderingContext, size: CGSize) {
         let frame = CTFramesetterCreateFrame(
             framesetter,

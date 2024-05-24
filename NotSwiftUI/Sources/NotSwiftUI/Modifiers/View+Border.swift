@@ -17,7 +17,7 @@ struct BorderShape: Shape {
 }
 
 public extension View {
-    func border(_ color: NSColor, width: CGFloat) -> some View {
+    func border(_ color: NSColor, width: CGFloat = 1) -> some View {
         overlay(BorderShape(width: width).foregroundColor(color))
     }
 }

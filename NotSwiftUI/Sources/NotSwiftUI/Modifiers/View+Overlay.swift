@@ -6,6 +6,10 @@ struct Overlay<Content: View, Overlay: View>: View, BuiltinView {
     let overlay: Overlay
     let alignment: Alignment
 
+    var layoutPriority: Double {
+        content._layoutPriority
+    }
+
     func render(context: RenderingContext, size: CGSize) {
         content._render(context: context, size: size)
         let contentSize = content._size(proposed: ProposedSize(size))

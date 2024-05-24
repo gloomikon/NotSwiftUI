@@ -42,25 +42,40 @@ struct ContentView: SwiftUI.View {
     private var sample: some NotSwiftUI.View {
         NotSwiftUI.HStack(children: [
             NotSwiftUI.AnyView(
-                NotSwiftUI.Rectangle().foregroundColor(.red)
-                    .frame(width: 150, height: 50)
-                    .alignmentGuide(.myLeading) { size in size.width / 2 }
+                NotSwiftUI.Rectangle()
+                    .foregroundColor(.red)
+                    .frame(minWidth: 50)
+                    .measured
             ),
             NotSwiftUI.AnyView(
-                NotSwiftUI.Rectangle().foregroundColor(.green)
-                    .frame(width: 100, height: 50)
-                    .alignmentGuide(.myLeading) { size in size.width / 2 }
+                NotSwiftUI.Rectangle()
+                    .foregroundColor(.green)
+                    .frame(width: 30)
+                    .layoutPriority(2)
+                    .measured
+            ),
+            NotSwiftUI.AnyView(
+                NotSwiftUI.Rectangle()
+                    .foregroundColor(.yellow)
+                    .frame(minWidth: 50)
+                    .layoutPriority(1)
+                    .measured
+            ),
+            NotSwiftUI.AnyView(
+                NotSwiftUI.Rectangle()
+                    .foregroundColor(.blue)
+                    .layoutPriority(2)
+                    .measured
+            ),
+            NotSwiftUI.AnyView(
+                NotSwiftUI.Rectangle()
+                    .foregroundColor(.orange)
+                    .frame(minWidth: 100, maxWidth: 120)
+                    .measured
             ),
         ])
-        .frame(
-            width: 400,
-            height: 200,
-            alignment: NotSwiftUI.Alignment(
-                horizontal: .myLeading,
-                vertical: .center
-            )
-        )
-        .border(.white, width: 2)
+        .frame(width: 400, height: 200, alignment: .leading)
+        .border(.white)
     }
 
     var body: some SwiftUI.View {

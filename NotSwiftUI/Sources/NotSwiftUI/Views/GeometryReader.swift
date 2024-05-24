@@ -8,6 +8,10 @@ public struct GeometryReader<Content: View>: View, BuiltinView {
         self.content = content
     }
 
+    public var layoutPriority: Double {
+        .zero
+    }
+
     public func render(context: RenderingContext, size: CGSize) {
          content(size)._render(context: context, size: size)
     }

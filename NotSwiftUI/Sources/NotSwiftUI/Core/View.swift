@@ -19,6 +19,15 @@ extension Never: View {
 }
 
 extension View {
+
+    var _layoutPriority: Double {
+        if let builtin = self as? BuiltinView {
+            builtin.layoutPriority
+        } else {
+            body._layoutPriority
+        }
+    }
+
     func _render(context: RenderingContext, size: CGSize) {
         if let builtin = self as? BuiltinView {
             builtin.render(context: context, size: size)

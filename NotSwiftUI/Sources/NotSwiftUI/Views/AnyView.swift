@@ -1,6 +1,11 @@
 import SwiftUI
 
 class AnyViewBase: BuiltinView {
+
+    var layoutPriority: Double {
+        fatalError()
+    }
+
     func render(context: RenderingContext, size: CGSize) {
         fatalError()
     }
@@ -20,6 +25,10 @@ class AnyViewImpl<V: View>: AnyViewBase {
 
     init(view: V) {
         self.view = view
+    }
+
+    override var layoutPriority: Double {
+        view._layoutPriority
     }
 
     override func render(context: RenderingContext, size: CGSize) {
@@ -43,6 +52,10 @@ public struct AnyView: View, BuiltinView {
     public init<V: View>(_ view: V) {
         self.swiftUI = SwiftUI.AnyView(view.swiftUI)
         self.impl = AnyViewImpl(view: view)
+    }
+
+    public var layoutPriority: Double {
+        impl.layoutPriority
     }
 
     public func render(context: RenderingContext, size: CGSize) {

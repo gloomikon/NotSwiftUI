@@ -32,6 +32,10 @@ public struct ShapeView<S: Shape>: BuiltinView, View {
 
     let shape: S
 
+    public var layoutPriority: Double {
+        .zero
+    }
+
     public func render(context: RenderingContext, size: CGSize) {
         context.saveGState()
         context.addPath(shape.path(in: CGRect(origin: .zero, size: size)))

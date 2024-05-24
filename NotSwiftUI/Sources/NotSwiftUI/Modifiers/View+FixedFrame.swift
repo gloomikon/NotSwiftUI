@@ -7,7 +7,11 @@ struct FixedFrame<Content: View>: BuiltinView, View {
     let height: CGFloat?
     let alignment: Alignment
     let content: Content
-    
+
+    var layoutPriority: Double {
+        content._layoutPriority
+    }
+
     func render(context: RenderingContext, size: CGSize) {
         context.saveGState()
         let childSize = content._size(proposed: ProposedSize(size))

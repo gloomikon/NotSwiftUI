@@ -6,6 +6,10 @@ struct FixedSize<Content: View>: View, BuiltinView {
     let horizontal: Bool
     let vertical: Bool
 
+    var layoutPriority: Double {
+        content._layoutPriority
+    }
+
     func render(context: RenderingContext, size: CGSize) {
         content._render(context: context, size: size)
     }

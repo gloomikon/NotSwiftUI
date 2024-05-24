@@ -17,6 +17,9 @@ public struct VStack: View, BuiltinView {
         self.children = children
     }
 
+    public var layoutPriority: Double {
+        .zero
+    }
 
     public func render(context: RenderingContext, size: CGSize) {
         let stackX = alignment.id.defaultValue(in: size)
