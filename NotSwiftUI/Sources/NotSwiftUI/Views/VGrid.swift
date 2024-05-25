@@ -3,30 +3,31 @@ import SwiftUI
 @available(iOS 14.0, macOS 11.0, *)
 public struct VGrid: View, BuiltinView {
 
-    let columns: [CGFloat]
+    let columns: [GridItem.Size]
     let content: [AnyView]
 
-    public init(columns: [CGFloat], content: [AnyView]) {
+    public init(columns: [GridItem.Size], content: [AnyView]) {
         self.columns = columns
         self.content = content
     }
 
     public func render(context: RenderingContext, size: CGSize) {
+        let columnWidths = layoutColumns(size.width)
         var offsetY: CGFloat = .zero
         var remainingViews = content
         while !remainingViews.isEmpty {
             var offsetX: CGFloat = .zero
-            let lineViews = remainingViews.prefix(columns.count)
+            let lineViews = remainingViews.prefix(columnWidths.count)
             remainingViews.removeFirst(lineViews.count)
-            let lineHeight = zip(columns, lineViews)
-                .map { column, view in
-                    view.size(proposed: ProposedSize(width: column, height: nil))
+            let lineHeight = zip(columnWidths, lineViews)
+                .map { width, view in
+                    view.size(proposed: ProposedSize(width: width, height: nil))
                 }
                 .map(\.height)
                 .max() ?? .zero
 
-            for (column, view) in zip(columns, lineViews) {
-                let childSize = view.size(proposed: ProposedSize(width: column, height: lineHeight))
+            for (width, view) in zip(columnWidths, lineViews) {
+                let childSize = view.size(proposed: ProposedSize(width: width, height: lineHeight))
                 context.saveGState()
                 context.translateBy(x: offsetX, y: offsetY)
                 view.render(context: context, size: childSize)
@@ -38,16 +39,48 @@ public struct VGrid: View, BuiltinView {
         }
     }
 
+    private func layoutColumns(_ width: CGFloat) -> [CGFloat] {
+        var remainingIndices = columns.indices.sorted { lhs, rhs in
+            if case .fixed = columns[lhs] { return true }
+            if case .fixed = columns[rhs] { return false }
+            return lhs < rhs
+        }
+
+        var result = Array(repeating: .zero as CGFloat, count: columns.count)
+
+        var remainingWidth = width
+        while !remainingIndices.isEmpty {
+            let proposedWidth = remainingWidth / CGFloat(remainingIndices.count)
+
+            let idx = remainingIndices.removeFirst()
+
+            let columnWidth = switch columns[idx] {
+            case let .fixed(width):
+                width
+            case let .flexible(minimum, maximum):
+                min(max(minimum, proposedWidth), maximum)
+            case .adaptive:
+                fatalError()
+            }
+
+            result[idx] = columnWidth
+            remainingWidth -= columnWidth
+        }
+
+        return result
+    }
+
     public func size(proposed: ProposedSize) -> CGSize {
-        let width = columns.reduce(0, +)
+        let columnWidths = layoutColumns(proposed.orDefault.width)
+        let width = columnWidths.reduce(0, +)
         var height: CGFloat = .zero
         var remainingViews = content
         while !remainingViews.isEmpty {
             let lineViews = remainingViews.prefix(columns.count)
             remainingViews.removeFirst(lineViews.count)
-            let lineHeight = zip(columns, lineViews)
-                .map { column, view in
-                    view.size(proposed: ProposedSize(width: column, height: nil))
+            let lineHeight = zip(columnWidths, lineViews)
+                .map { width, view in
+                    view.size(proposed: ProposedSize(width: width, height: nil))
                 }
                 .map(\.height)
                 .max() ?? .zero
@@ -59,7 +92,7 @@ public struct VGrid: View, BuiltinView {
 
     public var swiftUI: some SwiftUI.View {
         LazyVGrid(
-            columns: columns.map { GridItem(.fixed($0), spacing: .zero) },
+            columns: columns.map { GridItem($0, spacing: .zero) },
             alignment: .leading,
             spacing: .zero
         ) {

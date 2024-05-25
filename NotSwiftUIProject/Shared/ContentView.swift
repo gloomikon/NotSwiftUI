@@ -36,7 +36,7 @@ struct ContentView: SwiftUI.View {
 
     private var sample: some NotSwiftUI.View {
         NotSwiftUI.VGrid(
-            columns: [100, 200],
+            columns: [.flexible(minimum: 100, maximum: 200), .fixed(100), .fixed(200)],
             content: [
                 NotSwiftUI.AnyView(
                     NotSwiftUI.Rectangle()
@@ -46,13 +46,12 @@ struct ContentView: SwiftUI.View {
                 NotSwiftUI.AnyView(
                     NotSwiftUI.Rectangle()
                         .foregroundColor(.green)
-                        .frame(minWidth: 74, minHeight: 50)
+                        .frame(minHeight: 50)
                         .measured
                 ),
                 NotSwiftUI.AnyView(
                     NotSwiftUI.Rectangle()
                         .foregroundColor(.yellow)
-                        .frame(maxWidth: 23, minHeight: 75)
                         .measured
                 )
             ]
@@ -81,7 +80,7 @@ struct ContentView: SwiftUI.View {
                     Text("Opacity".withFormattedValue(opacity))
                 }
 
-                Slider(value: $width, in: 0...400) {
+                Slider(value: $width, in: 0...600) {
                     Text("Width".withFormattedValue(width))
                 }
             }
