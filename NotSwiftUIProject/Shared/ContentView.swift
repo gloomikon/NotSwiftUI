@@ -32,29 +32,34 @@ struct ContentView: SwiftUI.View {
     private let size = CGSize(width: 600, height: 400)
 
     @State private var opacity: Double = 0.5
+    @State private var width: CGFloat = 300
 
     private var sample: some NotSwiftUI.View {
-        NotSwiftUI.HStack(children: [
-            NotSwiftUI.AnyView(
-                NotSwiftUI.Rectangle()
-                    .foregroundColor(.red)
-                    .measured
-            ),
-            NotSwiftUI.AnyView(
-                NotSwiftUI.Rectangle()
-                    .foregroundColor(.green)
-                    .frame(minWidth: 74)
-                    .measured
-            ),
-            NotSwiftUI.AnyView(
-                NotSwiftUI.Rectangle()
-                    .foregroundColor(.yellow)
-                    .frame(maxWidth: 23)
-                    .measured
-            )
-        ])
-        .frame(width: 300, height: 200, alignment: .leading)
+        NotSwiftUI.VGrid(
+            columns: [100, 200],
+            content: [
+                NotSwiftUI.AnyView(
+                    NotSwiftUI.Rectangle()
+                        .foregroundColor(.red)
+                        .measured
+                ),
+                NotSwiftUI.AnyView(
+                    NotSwiftUI.Rectangle()
+                        .foregroundColor(.green)
+                        .frame(minWidth: 74, minHeight: 50)
+                        .measured
+                ),
+                NotSwiftUI.AnyView(
+                    NotSwiftUI.Rectangle()
+                        .foregroundColor(.yellow)
+                        .frame(maxWidth: 23, minHeight: 75)
+                        .measured
+                )
+            ]
+        )
         .border(.white)
+        .frame(width: width, height: 200)
+        .border(.red)
     }
 
     var body: some SwiftUI.View {
@@ -74,6 +79,10 @@ struct ContentView: SwiftUI.View {
             VStack {
                 Slider(value: $opacity, in: 0...1) {
                     Text("Opacity".withFormattedValue(opacity))
+                }
+
+                Slider(value: $width, in: 0...400) {
+                    Text("Width".withFormattedValue(width))
                 }
             }
             .padding()
