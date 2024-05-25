@@ -43,10 +43,10 @@ public struct HStack: View, BuiltinView {
         return CGSize(width: width, height: height)
     }
 
-    private func layout(proposed: ProposedSize) {
+    func layout(proposed: ProposedSize) {
         let flexibility: [LayoutInfo] = children.enumerated().map { idx, child in
             let lower = child.size(proposed: ProposedSize(width: .zero, height: proposed.height)).width
-            let upper = child.size(proposed: ProposedSize(width: .greatestFiniteMagnitude, height: proposed.height)).width
+            let upper = child.size(proposed: ProposedSize(width: 1e15, height: proposed.height)).width
             return LayoutInfo(
                 minWidth: lower,
                 maxWidth: upper,
